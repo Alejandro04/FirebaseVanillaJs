@@ -27,8 +27,8 @@ function getAllData() {
       <td>${doc.data().name}</td>
       <td>${doc.data().lastName}</td>
       <td>${doc.data().date} <i class="far fa-edit"></i></td>
-      <td><button class="btn btn-warning"id="btn" onclick="editItem('${doc.id}', '${doc.data().name}', '${doc.data().lastName}', '${doc.data().date}')">X</button></td>
-      <td><button class="btn btn-danger"id="btn" onclick="deleteItem('${doc.id}')">X</button></td>
+      <td><button class="btn btn-warning" id="editBtn" onclick="editItem('${doc.id}', '${doc.data().name}', '${doc.data().lastName}', '${doc.data().date}')">X</button></td>
+      <td><button class="btn btn-danger"id="deleteBtn" onclick="deleteItem('${doc.id}')">X</button></td>
   </tr>
       `
     });
