@@ -36,11 +36,11 @@ function observer() {
       console.log("usuario activo: ", email)
       console.log(providerData)
       console.log("email verificado:", emailVerified)
+      
       // ...
     } else {
       // User is signed out.
       // ...
-      console.log("no existe user activo")
     }
   });
 }
@@ -137,6 +137,7 @@ function register() {
   firebase.auth().createUserWithEmailAndPassword(email, password)
   .then(function(){
     verify()
+    window.location.href="users.html"
   })
   .catch(function (error) {
     // Handle Errors here.
@@ -153,7 +154,11 @@ function login() {
   let email = document.getElementById('email').value
   let password = document.getElementById('password').value
 
-  firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+  firebase.auth().signInWithEmailAndPassword(email, password)
+  .then(function (){
+    window.location.href="users.html"
+  })
+  .catch(function (error) {
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
@@ -166,6 +171,7 @@ function login() {
 
 function logout() {
   firebase.auth().signOut()
+  window.location.href="index.html"
 }
 
 function verify() {
