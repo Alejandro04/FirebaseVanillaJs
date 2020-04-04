@@ -48,9 +48,7 @@ function save() {
     .then(function (docRef) {
       console.log("Document written with ID: ", docRef.id);
 
-      document.getElementById('name').value = ''
-      document.getElementById('lastName').value = ''
-      document.getElementById('date').value = ''
+      cleanInputs()
     })
     .catch(function (error) {
       console.error("Error adding document: ", error);
@@ -79,9 +77,7 @@ function editItem(id, name, lastName, date) {
       .then(function () {
         console.log("Document successfully updated!");
         btn.innerHTML = 'Guardar'
-        document.getElementById('name').value = ''
-        document.getElementById('lastName').value = ''
-        document.getElementById('date').value = ''
+        cleanInputs()
       })
       .catch(function (error) {
         // The document probably doesn't exist.
@@ -96,4 +92,10 @@ function deleteItem(id) {
   }).catch(function (error) {
     console.error("Error removing document: ", error);
   });
+}
+
+function cleanInputs(){
+  document.getElementById('name').value = ''
+  document.getElementById('lastName').value = ''
+  document.getElementById('date').value = ''
 }
