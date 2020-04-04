@@ -1,11 +1,37 @@
-// Initialize Cloud Firestore through Firebase
-firebase.initializeApp({
-  apiKey: "AIzaSyDr0Ir--93cprxKYdwg7QREP1__YoSsDQI",
-  authDomain: "chat-48efe.firebaseapp.com",
-  projectId: "chat-48efe",
-});
 
-var db = firebase.firestore();
+init()
+
+function init() {
+  // Initialize Cloud Firestore through Firebase
+  firebase.initializeApp({
+    apiKey: "AIzaSyDr0Ir--93cprxKYdwg7QREP1__YoSsDQI",
+    authDomain: "chat-48efe.firebaseapp.com",
+    projectId: "chat-48efe",
+  });
+
+  // GLOBAL
+  db = firebase.firestore();
+  getAllData()
+}
+
+function getAllData() {
+  let table = document.getElementById('table')
+  db.collection("users").onSnapshot((querySnapshot) => {
+    table.innerHTML = ''
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()}`);
+
+      table.innerHTML += `
+      <tr>
+      <th scope="row">${doc.id}</th>
+      <td>${doc.data().name}</td>
+      <td>${doc.data().lastName}</td>
+      <td>${doc.data().date}</td>
+  </tr>
+      `
+    });
+  });
+}
 
 function save() {
   let name = document.getElementById('name').value
@@ -27,22 +53,4 @@ function save() {
     .catch(function (error) {
       console.error("Error adding document: ", error);
     });
-
 }
-
-let table = document.getElementById('table')
-db.collection("users").onSnapshot((querySnapshot) => {
-  table.innerHTML = ''
-  querySnapshot.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data()}`);
-
-    table.innerHTML += `
-      <tr>
-      <th scope="row">${doc.id}</th>
-      <td>${doc.data().name}</td>
-      <td>${doc.data().lastName}</td>
-      <td>${doc.data().date}</td>
-  </tr>
-      `
-  });
-});
