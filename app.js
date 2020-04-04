@@ -1,17 +1,47 @@
 
 init()
+observer()
+getAllData()
 
 function init() {
-  // Initialize Cloud Firestore through Firebase
-  firebase.initializeApp({
+
+  firebaseConfig = {
     apiKey: "AIzaSyDr0Ir--93cprxKYdwg7QREP1__YoSsDQI",
     authDomain: "chat-48efe.firebaseapp.com",
+    databaseURL: "https://chat-48efe.firebaseio.com",
     projectId: "chat-48efe",
-  });
+    storageBucket: "chat-48efe.appspot.com",
+    messagingSenderId: "985978857548",
+    appId: "1:985978857548:web:3c251f88cbf56ee450ece9"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
 
   // GLOBAL
   db = firebase.firestore();
-  getAllData()
+}
+
+function observer() {
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      // User is signed in.
+      var displayName = user.displayName;
+      var email = user.email;
+      var emailVerified = user.emailVerified;
+      var photoURL = user.photoURL;
+      var isAnonymous = user.isAnonymous;
+      var uid = user.uid;
+      var providerData = user.providerData;
+      console.log("usuario activo: ", email)
+      console.log(providerData)
+      // ...
+    } else {
+      // User is signed out.
+      // ...
+      console.log("no existe user activo")
+    }
+  });
 }
 
 function getAllData() {
@@ -94,8 +124,42 @@ function deleteItem(id) {
   });
 }
 
-function cleanInputs(){
+function cleanInputs() {
   document.getElementById('name').value = ''
   document.getElementById('lastName').value = ''
   document.getElementById('date').value = ''
+}
+
+function register() {
+  let email = document.getElementById('email').value
+  let password = document.getElementById('password').value
+
+  firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+
+    console.log(errorCode)
+    console.log(errorMessage)
+    // ...
+  });
+}
+
+function login() {
+  let email = document.getElementById('email').value
+  let password = document.getElementById('password').value
+
+  firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+
+    console.log(errorCode)
+    console.log(errorMessage)
+    // ...
+  });
+}
+
+function logout() {
+  firebase.auth().signOut()
 }
