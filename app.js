@@ -35,6 +35,7 @@ function observer() {
       var providerData = user.providerData;
       console.log("usuario activo: ", email)
       console.log(providerData)
+      console.log("email verificado:", emailVerified)
       // ...
     } else {
       // User is signed out.
@@ -77,7 +78,6 @@ function save() {
   })
     .then(function (docRef) {
       console.log("Document written with ID: ", docRef.id);
-
       cleanInputs()
     })
     .catch(function (error) {
@@ -134,7 +134,11 @@ function register() {
   let email = document.getElementById('email').value
   let password = document.getElementById('password').value
 
-  firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then(function(){
+    verify()
+  })
+  .catch(function (error) {
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
@@ -162,4 +166,13 @@ function login() {
 
 function logout() {
   firebase.auth().signOut()
+}
+
+function verify() {
+  let user = firebase.auth().currentUser;
+  user.sendEmailVerification().then(function () {
+    console.log("enviando email")
+  }).catch(function (error) {
+    console.log(error)
+  });
 }
